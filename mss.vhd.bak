@@ -1,0 +1,45 @@
+--MSS de la maquina
+
+LIBRARY IEEE;
+USE  IEEE.STD_LOGIC_1164.all;
+USE  IEEE.STD_LOGIC_UNSIGNED.all;
+entity MSS is
+	port	( start, resetn, max, min, regresar, : in std_logic;
+				reset_all, enselector, ensensor: out std_logic);
+end MSS;
+
+architecture sol of MSS is
+type estado is (ta, tb, tc, td, tf, tg,th);
+signal y: estado;
+begin
+MSS_transiciones:process(resetn,clock)
+	begin
+		if (resetn='0') then y<=ta;
+		elsif(clock'event and clock='1') then
+			case y is
+				when ta =>	if start='1' then y<=tb;--presiono start
+										else y<=ta;end if;
+				when tb =>	if start='0' then y<=tc;--suelto start
+										else y<=tb;end if;
+				when tc => y<= td;
+				when td => y<=tf;
+				when tf=> if max ='1' then y<= tg;
+								elsif min ='1' then y<=th;
+								else y<=tf;
+				when tg=> if regresar='1' then y<=tf;
+							else y=> tg;
+				when th=> if regresar='1' then y<=tf;
+							else y=> th;
+		end case;
+		end if;
+end process;
+
+
+MSS_salidas: process (y)
+		begin--poner todas las salidas como cero para poder activar cada bloque en el estado que se desea
+		reset_all<='1'; enmapa<='0'; aleatorio<='0';enaleatorio<='0'; endisplay<='0'; enmatrix<='0'; ennaves<='0';ledganar<= '0';
+
+		case y is 						
+				when ta =>
+				when tb =>
+				when tc => reset_all<='0'; enaleatorio<='1';

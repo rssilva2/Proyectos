@@ -1,0 +1,31 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+
+entity convertidor is
+	port(
+	en: in std_logic;
+	milles, cientos, unidades: in std_logic_vector(7 downto 0));
+	smilles, scientos, sunidades: out std_logic_vector(7 downto 0));
+end convertidor;
+architecture sol of convertidor is
+begin
+		process(en)
+			begin
+				if en='1' then 
+					case milles is
+						WHEN 1 => smilles:= x"31";
+						WHEN 2 => smilles:= x"32";
+						WHEN 3 => smilles:= x"33";
+						WHEN 4 => smilles:= x"34";
+						WHEN 5 => smilles:= x"35";
+						WHEN 6 => smilles:= x"36";
+						WHEN 7 => smilles:= x"37";
+						WHEN 8 => smilles:= x"38";
+						WHEN 9 => smilles:= x"39";
+						WHEN 0 => smilles:= x"30";
+					WHEN OTHERS =>  smilles:= x"00";
+				END CASE;
+			end if; 	
+END process;
+end sol;
